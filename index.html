@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Wizard's Stuff</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<link rel="stylesheet" type="text/css" href="assets/styles/style.css">
+	</head>
+	<body>
+		<!-- count up timer score temp -->
+		<!-- for simple timer -->
+			 <!-- <label id="minutes">00</label>:<label id="seconds">00</label> -->
+		<!-- for Date() timer
+			<div class="countup" id="countup1">
+			<span class="timeel minutes">0</span>
+ 			<span class="timeel timeRefMinutes">minutes</span>
+			<span class="timeel seconds">0</span>
+ 			<span class="timeel timeRefSeconds">seconds</span>
+		</div>  -->
+		<!-- count up end -->
+
+		<div class="mouse">
+			<img width="50" height="50" style="opacity: 0.6; margin-left: -25px; margin-top: -25px;" src="images/cursor.png" alt="cursor">
+		</div>
+
+		<img class="start-image" src="images/frontImage.png" alt="startpic">
+
+		<div class="start">
+			<!-- game title -->
+			<div class="game-title-wrapper">
+				<p class="game-title" style="margin: 0;"> Wizard's Stuff </p>
+			</div>
+			<!-- progress bar -->
+			<div class="progress-wrapper">
+				<div class="percent-wrapper">
+					<p class="start-text">Play Game</p>
+					<p id="loadingCount" class="loading-count"> Loading </p>
+					<p id="percentCount" class="percent-count"> 0% </p>
+				</div>
+				<div class="progress-bar">
+					<div class="progress" id="progress"></div>
+				</div>
+			</div>
+			<!-- wizard image and instructions -->
+			<div class="instructions">
+				<div class="instructions-wrapper">
+					<div class="start-wizard-image">
+						<img src="images/wizard.png">
+					</div>
+					<div class="start-wrapper-text">
+						<p style="text-align: center; font-size:40px; margin: 0; width: 45%; line-height: 55px;"> The Archwizards staff keeps disappearing, help me find it </p>
+						<p style="text-align: center; width: 45%; color: #917bce; font-size:26px; margin-top: 80px; line-height: 55px;"> W, A, S, D = Move <br> MOUSE = Look around </p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="pause">
+			<p> Paused </p>
+			<p style="cursor: pointer;" id="keepPlaying"> Keep playing </p>
+		</div>
+
+		<div class="win">
+			<div class="win-text-wrapper">
+				<p>You found it!</p>
+				<p>Your score: <span class="score"></span></p>
+
+				<div class="hat-score">
+					<img class="hat1" style="width: 70px; margin: 10px 10px 40px; display: none;" src="images/hatIcon.png" alt="play again button">
+					<img class="hat2" style="width: 70px; margin: 10px 10px 40px; display: none;" src="images/hatIcon.png" alt="play again button">
+					<img class="hat3" style="width: 70px; margin: 10px 10px 40px; display: none;" src="images/hatIcon.png" alt="play again button">
+					<img class="hat4" style="width: 70px; margin: 10px 10px 40px; display: none;" src="images/hatIcon.png" alt="play again button">
+					<img class="hat5" style="width: 70px; margin: 10px 10px 40px; display: none;" src="images/hatIcon.png" alt="play again button">
+				</div>
+				<div class="play-again-container">
+					<img class="play-again" style="width: 70px" src="images/playagain.png" alt="play again button">
+				</div>
+			</div>
+		</div>
+
+		<script src="js/three.js"></script>
+
+		<script src="js/PointerLockControls.js"></script>
+		<script src="js/OrbitControls.js"></script>
+
+		<script src="js/FBXLoader.js"></script>
+		<script src="js/OBJLoader.js"></script>
+		<script src="js/inflate.min.js"></script>
+
+		<script src="assets/main.js"></script>
+		<script src="assets/loadingBar.js"></script>
+		<script src="assets/fbxModels.js"></script>
+		<script src="assets/objModels.js"></script>
+		<script src="assets/pathwayModels.js"></script>
+		<script src="assets/hiddenStaff.js"></script>
+		<script src="assets/skybox.js"></script>
+
+		<!-- sounds -->
+		<script src="assets/ravenSounds.js"></script>
+		<script src="assets/fireplaceSound.js"></script>
+		<script src="assets/stoneSound.js"></script>
+
+		<!-- Highscore -->
+
+		<!-- <script src="js/ParticleEngine.js" ></script>
+		<script src="js/ParticleEngineExamples.js"></script> -->
+
+	</body>
+</html>
