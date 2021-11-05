@@ -57,7 +57,17 @@ let smallStone3DTheta = 2 * Math.PI / 800;
 
 let score;
 
+// new code
+const clock = new THREE.Clock();
 
+let debug;
+if (window.location.search.indexOf('debug=true') !== -1) {
+  debug = true
+  console.log(debug)
+} else {debug = false;
+console.log(debug)
+}
+// new code end
 
 init();
 animate();
@@ -194,35 +204,45 @@ function init() {
   // create an AudioListener and add it to the camera
   let listener = new THREE.AudioListener();
   camera.add( listener );
-
+if (debug) {
+  console.log('debug: disabled audio, optimize files!')
+} else {
   // create a global audio source
   let sound = new THREE.Audio( listener );
   let audioLoader = new THREE.AudioLoader();
   audioLoader.load( 'assets/sounds/rain_with_bats.wav', function( buffer ) {
-  sound.setBuffer( buffer );
-  sound.setLoop( true );
-  sound.setVolume( 0.3 );
-  sound.play();
+    sound.setBuffer( buffer );
+    sound.setLoop( true );
+    sound.setVolume( 0.3 );
+    sound.play();
   });
-
+  
   //music global
   let music = new THREE.Audio( listener );
   let musicLoader = new THREE.AudioLoader();
   musicLoader.load( 'assets/sounds/music.mp3', function( buffer ) {
-  music.setBuffer( buffer );
-  music.setLoop( true );
-  music.setVolume( 0.07 );
-  music.play();
+    music.setBuffer( buffer );
+    music.setLoop( true );
+    music.setVolume( 0.07 );
+    music.play();
   });
+}
 
 
   // SCENE LIGHT AND FOG
-  scene = new THREE.Scene();
-  scene.background = new THREE.Color( 0x000000 );
-  scene.fog = new THREE.Fog( 0x000000, 0, 500 );
-  let light = new THREE.HemisphereLight( 0xeeeeff, 0x777788, 0.85 );
-  light.position.set( 0.5, 1, 0.75 );
-  scene.add( light );
+  if (debug) {
+    scene = new THREE.Scene();
+    let light = new THREE.HemisphereLight( 0xeeeeff, 0x777788, 0.85 );
+    light.position.set( 0.5, 1, 0.75 );
+    scene.add( light );
+  } else {
+    scene = new THREE.Scene();
+    scene.background = new THREE.Color( 0x000000 );
+    scene.fog = new THREE.Fog( 0x000000, 0, 500 );
+    let light = new THREE.HemisphereLight( 0xeeeeff, 0x777788, 0.85 );
+    light.position.set( 0.5, 1, 0.75 );
+    scene.add( light );
+  }
 
 
   //POINTERLOCKCONTROL
@@ -559,7 +579,18 @@ function onDocumentMouseMove( event ) {
 
 
 function animate() {
+  
   requestAnimationFrame( animate );
+  
+  // can use animate from requestanimationFrame instead of performance.now
+  let time = performance.now();
+  let delta = ( time - prevTime ) / 1000;
+  prevTime = time;
+
+  // or we can use
+  // const delta = clock.getDelta();
+
+
   if ( controls.isLocked === true ) {
     raycaster.ray.origin.copy( controls.getObject().position );
     raycaster.setFromCamera( mouse, camera );
@@ -577,10 +608,13 @@ function animate() {
 		}
 
     // MOUSE MOVEMENT
-    let time = performance.now();
-    let delta = ( time - prevTime ) / 1000;
-    velocity.x -= velocity.x * 5.8 * delta;
-    velocity.z -= velocity.z * 5.8 * delta;
+    if (debug) {
+      velocity.x -= velocity.x * 2 * delta;
+      velocity.z -= velocity.z * 2 * delta;
+    } else {
+      velocity.x -= velocity.x * 5.8 * delta;
+      velocity.z -= velocity.z * 5.8 * delta;
+    }
     // console.log(time)
 
     direction.z = Number( moveForward ) - Number( moveBackward );
@@ -593,7 +627,6 @@ function animate() {
     controls.getObject().translateX( velocity.x * delta );
     controls.getObject().position.y += ( velocity.y * delta );
     controls.getObject().translateZ( velocity.z * delta );
-    prevTime = time;
 
 
     //GEMSTONE PARTICLES ANIMATION
@@ -643,20 +676,20 @@ function animate() {
 
     // BAT ANIMATION
     function animateBat(){
-      batTheta += batDTheta;
+      batTheta += batDTheta * delta * 30;
       bats[0].position.x = 100 + batRadius * Math.cos(batTheta);
       bats[0].position.z = batRadius * Math.sin(batTheta);
-      bats[0].rotation.z += batDTheta;
+      bats[0].rotation.z += batDTheta * delta * 30;
       bats[0].verticesNeedUpdate = true;
 
       bats[1].position.x = batRadius * Math.cos(batTheta);
       bats[1].position.z = batRadius * Math.sin(batTheta);
-      bats[1].rotation.z += batDTheta;
+      bats[1].rotation.z += batDTheta * delta* 30;
       bats[1].verticesNeedUpdate = true;
 
       bats[2].position.x = 350 + batRadius * Math.cos(batTheta);
       bats[2].position.z = batRadius * Math.sin(batTheta);
-      bats[2].rotation.z += batDTheta;
+      bats[2].rotation.z += batDTheta * delta* 30;
       bats[2].verticesNeedUpdate = true;
     }
     animateBat();
@@ -713,8 +746,8 @@ function animate() {
       rainParticle.y = 100;
       rainParticle.velocity.y = 0;
     }
-    rainParticle.velocity.y -= Math.random() * 0.7;
-    rainParticle.y += rainParticle.velocity.y;
+    rainParticle.velocity.y -= Math.random() * 2;
+    rainParticle.y += rainParticle.velocity.y * delta;
     }
     rainParticles.verticesNeedUpdate = true;
   };
@@ -729,7 +762,7 @@ function animate() {
     if(magicParticle.y > 120) {
       magicParticle.y = 20;
     }
-    magicParticle.y += 0.07;
+    magicParticle.y += 1.4 * delta;
     }
     magicParticles.verticesNeedUpdate = true;
   };
